@@ -1,17 +1,11 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <time.h>
 
 uint64_t lcg_seed = 0;
 
 void lcg_srand(uint64_t seed) {
     lcg_seed = seed;
-}
-
-uint64_t lcg_rand() {
-    lcg_seed = lcg_seed * 6364136223846793005ULL + 1442695040888963407ULL;
-    return lcg_seed;
 }
 
 int lcg_next_bit() {
@@ -20,13 +14,13 @@ int lcg_next_bit() {
 }
 
 int main(int argc, char *argv[]) {
-    int count = 10000;
+    int count = 128;
     FILE *output = stdout;
     char *filename = NULL;
     
     if (argc > 1) {
         count = atoi(argv[1]);
-        if (count <= 0) count = 10000;
+        if (count <= 0) count = 128;
     }
     if (argc > 2) {
         filename = argv[2];
@@ -37,7 +31,7 @@ int main(int argc, char *argv[]) {
         }
     }
     
-    lcg_srand((uint64_t)time(NULL));
+    lcg_srand(12345);
 
     for (int i = 0; i < count; i++) {
         fprintf(output, "%d", lcg_next_bit());

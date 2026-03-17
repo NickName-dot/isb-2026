@@ -10,11 +10,7 @@ private:
     
 public:
     void init(uint64_t s) { state = s; }
-    uint64_t next() {
-        state = A * state + C;
-        return state;
-    }
-    bool next_bit() {
+    int next_bit() {
         state = A * state + C;
         return (state & 1);
     }
@@ -24,19 +20,24 @@ int main(int argc, char* argv[]) {
     LCG gen;
     gen.init(12345);
     
-    int n = argc > 1 ? std::atoi(argv[1]) : 10000;
-    std::ofstream out(argc > 2 ? argv[2] : "cpp_prng_output.txt");
+    int count = 128;
+    std::ofstream out(argc > 2 ? argv[2] : "");
+    
+    if (argc > 1) {
+        count = std::atoi(argv[1]);
+        if (count <= 0) count = 128;
+    }
     
     if (!out.is_open()) {
-        std::cerr << "Ошибка открытия файла!" << std::endl;
+        std::cerr << "Ошибка файла!" << std::endl;
         return 1;
     }
     
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < count; i++) {
         out << gen.next_bit();
     }
     
     out.close();
-    std::cout << "Сгенерировано " << n << " битов в cpp_prng_output.txt" << std::endl;
+    std::cout << count << " БИТОВ записано" << std::endl;
     return 0;
 }

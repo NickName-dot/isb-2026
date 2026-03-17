@@ -1,3 +1,4 @@
+
 public class Generator {
     private long seed = 0;
     private static final long A = 6364136223846793005L;
@@ -13,30 +14,28 @@ public class Generator {
     }
     
     public static void main(String[] args) {
-        int count = 10000;
+        int count = 128;
         java.io.PrintStream output = System.out;
         
         if (args.length > 0) {
             try {
                 count = Integer.parseInt(args[0]);
-                if (count <= 0) count = 10000;
+                if (count <= 0) count = 128;
             } catch (NumberFormatException e) {
-                count = 10000;
+                count = 128;
             }
         }
         
         if (args.length > 1) {
             try {
                 output = new java.io.PrintStream(new java.io.FileOutputStream(args[1]));
-                System.out.println("Запись в: " + args[1]);
             } catch (java.io.FileNotFoundException e) {
-                System.err.println("Ошибка файла: " + e.getMessage());
+                System.err.println("Ошибка файла");
                 System.exit(1);
             }
         }
         
-        long seedValue = System.currentTimeMillis();
-        Generator generator = new Generator(seedValue);
+        Generator generator = new Generator(12345);
         
         for (int i = 0; i < count; i++) {
             output.print(generator.nextBit());
@@ -44,7 +43,7 @@ public class Generator {
         
         if (args.length > 1) {
             output.close();
-            System.out.println(count + " БИТОВ записано в " + args[1]);
+            System.out.println(count + " БИТОВ записано");
         }
     }
 }
