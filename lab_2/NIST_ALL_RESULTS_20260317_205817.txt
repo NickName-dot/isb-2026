@@ -1,0 +1,35 @@
+NIST SP 800-22 REV 1-a STATISTICAL TEST RESULTS
+============================================================
+
+GENERATOR: C
+File: c_gen_128.txt (128 bits)
+----------------------------------------
+Monobit Test          : p= 0.7237 PASS
+Runs Test             : p= 0.5367 PASS
+Longest Run of Ones   : p= 0.0365 PASS
+PASSED: 3/3 tests
+
+GENERATOR: C++
+File: c++_gen_128.txt (128 bits)
+----------------------------------------
+Monobit Test          : p= 0.7237 PASS
+Runs Test             : p= 0.7016 PASS
+Longest Run of Ones   : p= 0.0536 PASS
+PASSED: 3/3 tests
+
+GENERATOR: Java
+File: java_gen_128.txt (128 bits)
+----------------------------------------
+Monobit Test          : p= 0.2888 PASS
+Runs Test             : p= 0.8438 PASS
+Longest Run of Ones   : p= 0.1079 PASS
+PASSED: 3/3 tests
+
+FINAL RESULTS TABLE:
+┌────────────────────────┬─────────┬─────────┬─────────┐
+│ Test                 │   C    │  C++   │ Java  │
+├────────────────────────┼─────────┼─────────┼─────────┤
+│ monobit               │  0.7237│  0.7237│  0.2888│
+│ runs                  │  0.5367│  0.7016│  0.8438│
+│ longest_run_ones      │  0.0365│  0.0536│  0.1079│
+└────────────────────────┴─────────┴─────────┴─────────┘

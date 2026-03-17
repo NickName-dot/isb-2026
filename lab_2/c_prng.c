@@ -10,17 +10,17 @@ void lcg_srand(uint64_t seed) {
 
 int lcg_next_bit() {
     lcg_seed = lcg_seed * 6364136223846793005ULL + 1442695040888963407ULL;
-    return (lcg_seed & 1);
+    return (lcg_seed >> 63) & 1;
 }
 
 int main(int argc, char *argv[]) {
-    int count = 128;
+    int count = 1000;
     FILE *output = stdout;
     char *filename = NULL;
     
     if (argc > 1) {
         count = atoi(argv[1]);
-        if (count <= 0) count = 128;
+        if (count <= 0) count = 1000;
     }
     if (argc > 2) {
         filename = argv[2];
