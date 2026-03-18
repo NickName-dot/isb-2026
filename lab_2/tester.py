@@ -1,6 +1,7 @@
 import math
 import os
 from datetime import datetime
+from scipy.special import gammaincc
 
 def erfc_approx(x):
     """NIST SP 800-22 точное приближение erfc(x)."""
@@ -27,7 +28,6 @@ def runs_test(bits):
     """Тест на серии NIST SP 800-22. Проверяет независимость битов."""
     n = len(bits)
     V_N = sum(1 for i in range(1, n) if bits[i] != bits[i-1])
-    V_N = V_N + 1
     ones = bits.count('1')
     zeta = ones / n
     if abs(zeta - 0.5) >= (2 / math.sqrt(n)):
@@ -41,7 +41,6 @@ def runs_test(bits):
     return round(p, 4)
 
 def longest_run_ones_test(bits):
-    """Тест на самую длинную последовательность единиц в блоке."""
     n = len(bits)
     M = 8
     N_blocks = n // M
@@ -74,8 +73,8 @@ def longest_run_ones_test(bits):
     for i in range(4):
         expected = N_blocks * pi[i]
         chi_square += ((v[i] - expected) ** 2) / expected
-
-    p = math.igamc(1.5, chi_square / 2)
+ 
+    p = gammaincc(3/2.0, chi_square/2.0)
     return round(p, 4)
 
 
