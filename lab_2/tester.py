@@ -32,34 +32,35 @@ def runs_test(bits):
     zeta = ones / n
     if abs(zeta - 0.5) >= (2 / math.sqrt(n)):
         return 0.0
-    numerator = abs(V_N - 2 * n * zeta * (1 - zeta))
-    denominator = 2 * math.sqrt(2 * n) * zeta * (1 - zeta)
-    if denominator == 0:
+    num = abs(V_N - 2 * n * zeta * (1 - zeta))
+    den = 2 * math.sqrt(2 * n) * zeta * (1 - zeta)
+    if den == 0:
         return 0.0
-    argument = numerator / denominator
-    p = erfc_approx(argument / math.sqrt(2))
+    argument = num / den
+    p = erfc_approx(argument)
     return round(p, 4)
 
 def longest_run_ones_test(bits):
+    """Тест на самую длинную последовательность единиц в блоке."""
     n = len(bits)
     M = 8
     N_blocks = n // M
-    
+
     pi = [0.2148, 0.3672, 0.2305, 0.1875]
     v = [0, 0, 0, 0]
-    
+
     for i in range(N_blocks):
         block = bits[i*M:(i+1)*M]
         max_run = 0
         current_run = 0
-        
+
         for bit in block:
             if bit == '1':
                 current_run += 1
                 max_run = max(max_run, current_run)
             else:
                 current_run = 0
-        
+
         if max_run <= 1:
             v[0] += 1
         elif max_run == 2:
@@ -68,14 +69,15 @@ def longest_run_ones_test(bits):
             v[2] += 1
         elif max_run >= 4:
             v[3] += 1
-    
+
     chi_square = 0
     for i in range(4):
         expected = N_blocks * pi[i]
         chi_square += ((v[i] - expected) ** 2) / expected
-    
-    p = erfc_approx(math.sqrt(chi_square / 2))
+
+    p = math.igamc(1.5, chi_square / 2)
     return round(p, 4)
+
 
 
 def read_bits(filename):
